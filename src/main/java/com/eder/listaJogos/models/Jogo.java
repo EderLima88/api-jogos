@@ -1,26 +1,17 @@
 package com.eder.listaJogos.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-
 @Entity(name = "tb_jogo")
 public class Jogo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     private String uuid;
+    
     private String nome;
     private String descricao;
     private String urlDaImagem;
@@ -37,11 +28,25 @@ public class Jogo {
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<Categoria> categorias = new ArrayList<>();
 
+    // Construtor vazio obrigatório para o Hibernate funcionar no H2
+    public Jogo() {
+    }
+
+    // Construtor de 3 parâmetros que o seu JogoService utiliza
     public Jogo(String nome, String descricao, String urlDaImagem) {
         this.nome = nome;
         this.descricao = descricao;
         this.urlDaImagem = urlDaImagem;
     }
+
+    // Getters manuais básicos para o seu Service ler os dados sem depender de ferramentas externas
+    public String getUuid() { return uuid; }
+    public String getNome() { return nome; }
+    public String getDescricao() { return descricao; }
+    public String getUrlDaImagem() { return urlDaImagem; }
+
+    public void addCategoria(Categoria categoria) { this.categorias.add(categoria); }
+    public void addConsole(Console console) { this.consoles.add(console); }
 
     @Override
     public boolean equals(Object o) {
@@ -52,17 +57,5 @@ public class Jogo {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(uuid, nome);
-    }
-
-    public void addCategoria(Categoria categoria) {
-        this.categorias.add(categoria);
-    }
-
-    public  void addConsole(Console console) {
-        this.consoles.add(console);
-    }
-
-
+    public int hashCode() { return Objects.hash(uuid, nome); }
 }

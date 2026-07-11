@@ -33,6 +33,10 @@ public class JogoService {
     public  Jogo findById(String id) {
         return  jogoRepository.findById(id).get();
     }
+    
+    //public Jogo findById(String id) {
+    //    return jogoRepository.findById(id).orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
+    //}
 
     public List<Jogo> findAll() {
         return jogoRepository.findAll();
